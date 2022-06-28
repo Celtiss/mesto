@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pages/index.css">
+    <title>Mesto</title>
+</head>
+<body class="page">
+    <header class="header">
+        <div class="header__logo"></div>
+    </header>
+    <main class="content">
+        <section class="profile">
+            <div class="profile__pack">
+                <img src="images/profile-avatar.png" alt="Аватар профиля" class="profile__avatar">
+            <div class="profile__info">
+                <button class="profile__edit-button"></button>
+                <h1 class="profile__name">Жак-Ив Кусто</h1>
+                <p class="profile__description">Исследователь океана</p>
+            </div>
+            </div>
+            <button class="profile__add-button"></button>
+        </section>
+        <section class="elements">
+            <ul class="elements__container">
+                <li class="elements__item">
+                    <img src="images/tufa-towers.jpg" alt="Башни Туфа" class="elements__image">
+                    <div class="elements__item-description">
+                        <h3 class="elements__title">Башни Туфа</h3>
+                        <button class="elements__like-icon"></button>
+                    </div>
+                </li>
+                <li class="elements__item">
+                    <img src="images/gran-canarias.jpg" alt="Гран-Канария" class="elements__image">
+                    <div class="elements__item-description">
+                        <h3 class="elements__title">Гран-Канария, Испания</h3>
+                        <button class="elements__like-icon"></button>
+                    </div>
+                </li>
+                <li class="elements__item">
+                    <img src="images/bali.jpg" alt="Бали" class="elements__image">
+                    <div class="elements__item-description">
+                        <h3 class="elements__title">Бали</h3>
+                        <button class="elements__like-icon"></button>
+                    </div>
+                </li>
+                <li class="elements__item">
+                    <img src="images/oahu.jpg" alt="Оаху" class="elements__image">
+                    <div class="elements__item-description">
+                        <h3 class="elements__title">Оаху, Гаваи</h3>
+                        <button class="elements__like-icon elements__like-icon_active"></button>
+                    </div>
+                </li>
+                <li class="elements__item">
+                    <img src="images/santorini.jpg" alt="Санторини" class="elements__image">
+                    <div class="elements__item-description">
+                        <h3 class="elements__title">Санторини, Греция</h3>
+                        <button class="elements__like-icon elements__like-icon_active"></button>
+                    </div>
+                </li>
+                <li class="elements__item">
+                    <img src="images/maui.jpg" alt="Мауи" class="elements__image">
+                    <div class="elements__item-description">
+                        <h3 class="elements__title">Мауи, Гаваи</h3>
+                        <button class="elements__like-icon elements__like-icon_active"></button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright">© 2020 Mesto Russia</p>
+    </footer>
+    <section class="popup">
+        <div class="popup__container">
+            <button class="popup__close"></button>
+            <div class="popup__content">
+                <h2 class="popup__title">Редактировать профиль</h2>
+                <form action="#" class="popup__form">
+                    <input name="popup-name" type="text" placeholder="Имя" class="popup__name">
+                    <input name="job"  placeholder="Работа" class="popup__job">
+                    <button type="submit" class="popup__save">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script src="scripts/index.js"></script>
+</body>
+</html>

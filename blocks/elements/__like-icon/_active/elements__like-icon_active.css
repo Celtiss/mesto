@@ -1,0 +1,6 @@
+.elements__like-icon_active {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url('../../../../images/like-icon-active.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
