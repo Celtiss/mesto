@@ -5,11 +5,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
 }
 
 @media screen and (max-width:760px) {
     .profile {
         flex-direction: column;
-        row-gap: 36px;
+        row-gap: 33px;
     }
 }

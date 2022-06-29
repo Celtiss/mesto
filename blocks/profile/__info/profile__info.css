@@ -1,14 +1,24 @@
 .profile__info {
-    padding-right: 42px;
     position: relative;
+    display: grid;
+    grid-template-columns: 25fr 2fr;
+    grid-template-rows: repeat(2, min-content);
+    column-gap: 23px;
+    row-gap: 7px;
+    justify-content: center;
+    align-items: center;
+    grid-template-areas: 
+    "name edit"
+    "job job";
+    box-sizing: border-box;
 }
 
-@media screen and (max-width:550px) {
+@media screen and (max-width:568px) {
     .profile__info {
-        padding-right: 28px;
         display: flex;
-        justify-content: center;
         flex-direction: column;
-        align-items: center;
+        max-width: 190px;
+        min-width: 100px;
+        width: 100%;
     }
 }

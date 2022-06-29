@@ -10,9 +10,8 @@
     line-height: 22px;
     text-align: center;
     background-color: #000;
-    margin: 48px 0 0;
+    margin: 21px 0 0;
     cursor: pointer;
-    background: #000000;
     border: none;
     border-radius: 2px;
     transition: opacity .3s;
@@ -26,6 +25,7 @@
     .popup__save {
         font-size: 14px;
         line-height: 17px;
-
+        margin: 19px 0 0;
+        height: 46px;
     }
 }
