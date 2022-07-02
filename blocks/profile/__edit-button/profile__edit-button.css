@@ -5,7 +5,7 @@
     background-size: 10px 10px;
     background-repeat: no-repeat;
     background-position: center;
-    width: 30px;
+    width: 24px;
     height: 24px;
     background-color: #000;
     border: 1px solid #fff;
@@ -21,10 +21,11 @@
 
 @media screen and (max-width:568px) {
     .profile__edit-button {
+        background-size: 7.5px 7.5px;
         width: 18px;
         height: 18px;
         position: absolute;
-        top: 8px;
+        top: 7px;
         right: -28px;
     }
 }

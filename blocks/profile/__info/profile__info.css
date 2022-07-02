@@ -1,9 +1,9 @@
 .profile__info {
     position: relative;
     display: grid;
-    grid-template-columns: 25fr 2fr;
+    grid-template-columns: repeat(2, min-content);
     grid-template-rows: repeat(2, min-content);
-    column-gap: 23px;
+    column-gap: 18px;
     row-gap: 7px;
     justify-content: center;
     align-items: center;
