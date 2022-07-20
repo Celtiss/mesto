@@ -24,67 +24,56 @@
         </section>
         <section class="elements">
             <ul class="elements__container">
-                <li class="elements__item">
-                    <img src="images/tufa-towers.jpg" alt="Башни Туфа" class="elements__image">
-                    <div class="elements__item-description">
-                        <h3 class="elements__title">Башни Туфа</h3>
-                        <button type="button" aria-label="Лайк" class="elements__like-icon"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="images/gran-canarias.jpg" alt="Гран-Канария" class="elements__image">
-                    <div class="elements__item-description">
-                        <h3 class="elements__title">Гран-Канария, Испания</h3>
-                        <button type="button" aria-label="Лайк" class="elements__like-icon"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="images/bali.jpg" alt="Бали" class="elements__image">
-                    <div class="elements__item-description">
-                        <h3 class="elements__title">Бали</h3>
-                        <button type="button" aria-label="Лайк" class="elements__like-icon"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="images/oahu.jpg" alt="Оаху" class="elements__image">
-                    <div class="elements__item-description">
-                        <h3 class="elements__title">Оаху, Гаваи</h3>
-                        <button type="button" aria-label="Лайк" class="elements__like-icon elements__like-icon_active"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="images/santorini.jpg" alt="Санторини" class="elements__image">
-                    <div class="elements__item-description">
-                        <h3 class="elements__title">Санторини, Греция</h3>
-                        <button type="button" aria-label="Лайк" class="elements__like-icon elements__like-icon_active"></button>
-                    </div>
-                </li>
-                <li class="elements__item">
-                    <img src="images/maui.jpg" alt="Мауи" class="elements__image">
-                    <div class="elements__item-description">
-                        <h3 class="elements__title">Мауи, Гаваи</h3>
-                        <button type="button" aria-label="Лайк" class="elements__like-icon elements__like-icon_active"></button>
-                    </div>
-                </li>
             </ul>
         </section>
     </main>
     <footer class="footer">
         <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_type_edit-profile">
         <div class="popup__container">
             <button type="button" class="popup__close"></button>
             <div class="popup__content">
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form action="#" name="popupForm" class="popup__form">
-                    <input name="popupName" type="text" placeholder="Имя" class="popup__input popup__input_value_name" required>
-                    <input name="popupJob"  type="text" placeholder="Работа" class="popup__input popup__input_value_job" required>
+                    <input name="popupName" type="text" placeholder="Имя" class="popup__input popup__input_value_name" required />
+                    <input name="popupJob"  type="text" placeholder="Работа" class="popup__input popup__input_value_job" required />
                     <button type="submit" class="popup__save">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
+    <div class="popup popup_type_add-card">
+        <div class="popup__container">
+            <button type="button" class="popup__close"></button>
+            <div class="popup__content">
+                <h2 class="popup__title">Новое место</h2>
+                <form action="#" name="popupFormAddCard" class="popup__form popup__form_type_add-card">
+                    <input name="popupName" type="text" placeholder="Название" class="popup__input popup__input_value_name" required />
+                    <input name="popupImg"  type="text" placeholder="Ссылка на картинку" class="popup__input popup__input_value_img" required />
+                    <button type="submit" class="popup__save">Создать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup_type_image">
+        <div class="popup__container-image">
+            <button type="button" class="popup__close"></button>
+            <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg" alt="" class="popup__image">
+            <h2 class="popup__image-heading">Байкал</h2>
+        </div>
+    </div>
+
+    <template class="card-template">
+        <li class="elements__item">
+            <button type="button" aria-label="Удалить" class="elements__trash-button"></button>
+            <img src="" alt="" class="elements__image">
+            <div class="elements__item-description">
+                <h3 class="elements__title"></h3>
+                <button type="button" aria-label="Лайк" class="elements__like-icon"></button>
+            </div>
+        </li>
+    </template>
     <script src="scripts/index.js"></script>
 </body>
 </html>
