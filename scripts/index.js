@@ -8,7 +8,12 @@ const selectors = {
     popupClose: '.popup__close',
     popupOpened: 'popup_is-opened',
 
-    popupForm: '.popup__form',
+    popupForm: '.popup__form', //ФОРМА
+    popupInput: '.popup__input', //INPUT
+    inputInvalid: 'popup__input_invalid',
+    buttonSubmit: '.popup__save',
+    buttonSubmitInactive: 'popup__save_inactive',
+    inputErrorActive: 'popup__input-error_active',
     popupInputName: '.popup__input_value_name',
     popupInputJob: '.popup__input_value_job',
     profileInfo: '.profile__info',
@@ -34,6 +39,7 @@ const selectors = {
 }
 
 const closeButtons = document.querySelectorAll(selectors.popupClose);
+const popups = Array.from(document.querySelectorAll(selectors.popup));
 
 //Редактирование профиля
 const popupEditProfile = document.querySelector(selectors.popupEdit);
@@ -76,7 +82,16 @@ const fillPopupEdit = function () {
 //Открытие popup
 const openPopup = function (popup) {
     popup.classList.add(selectors.popupOpened);
+    document.addEventListener('keydown', checkEsc);
 };
+
+// Проверка закрытия попап на ESC
+function checkEsc(event) {
+    if(event.key === 'Escape') {
+        const popup =document.querySelector(`.${selectors.popupOpened}`);
+        closePopup(popup);
+    }
+}
 
 // Закрытие popup
 closeButtons.forEach((button) => {
@@ -86,7 +101,24 @@ closeButtons.forEach((button) => {
 
 const closePopup = function (popup) {
     popup.classList.remove(selectors.popupOpened);
+    document.removeEventListener('keydown', checkEsc);
+    if(popup===popupEditProfile || popup===popupCards) { //если это попапы с формами, то сбрасываем form и очищаем ошибки
+        const form = popup.querySelector(selectors.popupForm);
+        form.reset();
+        const inputList = Array.from(form.querySelectorAll(selectors.popupInput));
+        inputList.forEach((inputElement) => {
+            hideInputError(form, inputElement);
+        })
+    }
 };
+
+// Закрытие popup нажатием на overlay
+function closePopupOverlay (event) {
+    if(event.target !== event.currentTarget) {
+        return;
+    }
+    closePopup(event.currentTarget);
+}
 
 // Обработчик формы изменения профиля
 function handleProfileFormSubmit (event) {
@@ -182,3 +214,6 @@ createInitialCards();
 popupOpenButtonElement.addEventListener('click', fillPopupEdit);
 formElement.addEventListener('submit', handleProfileFormSubmit); 
 popupOpenButtonAddCards.addEventListener('click', () => openPopup(popupCards));
+popups.forEach((popupElement) => {
+    popupElement.addEventListener('click', closePopupOverlay);
+})

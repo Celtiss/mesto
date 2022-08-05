@@ -1,0 +1,9 @@
+.popup__input-error_active {
+    display: block;
+    color: #F00;
+    margin: 0 0 7px;
+}
+
+.popup__input-error_active:last-of-type {
+    margin: 0 0 28px;
+}
