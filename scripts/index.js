@@ -167,18 +167,16 @@ function renderCard(elements) {
     cardsSection.prepend(template);
 }
 
-//Обработчик создания слушателя на кнопку генерации карточек
-function formSubmitAddCards () {
-    formCard.addEventListener('submit', function(event) {
-        event.preventDefault();
+//Обработчик отправки данных для создания карточек
+function formSubmitAddCards (event) {
+    event.preventDefault();
 
-        const elements = {
-            name: formCardsTitle.value,
-            link: formCardsImg.value
-        }
-        renderCard(elements); // рендеринг карточки
-        closePopup(popupCards);
-    })
+    const elements = {
+        name: formCardsTitle.value,
+        link: formCardsImg.value
+    }
+    renderCard(elements); // рендеринг карточки
+    closePopup(popupCards);
 }
 
 //Инициализация 6 начальных карточек
@@ -213,9 +211,9 @@ function formSubmitAddCards () {
      initialCards.forEach(element => renderCard(element));
  }
 
-formSubmitAddCards(); // Вызов функции для установки слушателя на кнопку создания карточки
 createInitialCards();
 
+formCard.addEventListener('submit', formSubmitAddCards);
 popupOpenButtonElement.addEventListener('click', fillPopupEdit);
 formElement.addEventListener('submit', handleProfileFormSubmit); 
 popupOpenButtonAddCards.addEventListener('click', () => openPopup(popupCards));
