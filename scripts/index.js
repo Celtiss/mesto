@@ -95,7 +95,7 @@ const openPopup = function (popup) {
     //Очищаем ошибки
     const inputList = Array.from(form.querySelectorAll(selectors.popupInput));
     inputList.forEach((inputElement) => {
-        hideInputError(form, inputElement);
+        hideInputError(formSettings, form, inputElement);
     })
  }
 
@@ -163,11 +163,11 @@ function createCard(elements) {
 
 //Рендеринг карточки
 function renderCard(elements) {
-    const template = createCard(elements);
+    const template = createCard(elements); //создание карточки
     cardsSection.prepend(template);
 }
 
-//Обработчик формы карточек
+//Обработчик создания слушателя на кнопку генерации карточек
 function formSubmitAddCards () {
     formCard.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -176,7 +176,7 @@ function formSubmitAddCards () {
             name: formCardsTitle.value,
             link: formCardsImg.value
         }
-        renderCard(elements);
+        renderCard(elements); // рендеринг карточки
         closePopup(popupCards);
     })
 }
@@ -213,10 +213,7 @@ function formSubmitAddCards () {
      initialCards.forEach(element => renderCard(element));
  }
 
- 
-
-
-formSubmitAddCards();
+formSubmitAddCards(); // Вызов функции для установки слушателя на кнопку создания карточки
 createInitialCards();
 
 popupOpenButtonElement.addEventListener('click', fillPopupEdit);

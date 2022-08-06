@@ -25,22 +25,22 @@ function enableValidation (config) {
 function setEventListeners(config, formElement) {
     const inputList = Array.from(formElement.querySelectorAll(config.input));
     const buttonElement = formElement.querySelector(config.buttonSubmit);
-    toggleButtonState(inputList, buttonElement);
+    toggleButtonState(config, inputList, buttonElement);
 
     inputList.forEach((inputElement) => {
         inputElement.addEventListener('input', () => {
-            isValid(formElement, inputElement);
-            toggleButtonState(inputList, buttonElement);
+            isValid(config, formElement, inputElement);
+            toggleButtonState(config, inputList, buttonElement);
         })
     })
 }
 
 // Проверка поля на корректность 
-function isValid(formElement, inputElement) {
+function isValid(config, formElement, inputElement) {
     if(!inputElement.validity.valid) {
-        showInputError(formElement, inputElement, inputElement.validationMessage);
+        showInputError(config, formElement, inputElement, inputElement.validationMessage);
     } else {
-        hideInputError(formElement, inputElement);
+        hideInputError(config, formElement, inputElement);
     }
 }
 
@@ -52,29 +52,29 @@ function hasInvalidInput (inputList) {
 }
 
 //Вкл/Выкл кнопки 
-function toggleButtonState (inputList, buttonElement) {
+function toggleButtonState (config, inputList, buttonElement) {
     if(hasInvalidInput(inputList)) {
-        buttonElement.classList.add(formSettings.buttonSubmitInactive);
+        buttonElement.classList.add(config.buttonSubmitInactive);
         buttonElement.setAttribute('disabled', 'disabled');
     } else {
-        buttonElement.classList.remove(formSettings.buttonSubmitInactive);
+        buttonElement.classList.remove(config.buttonSubmitInactive);
         buttonElement.removeAttribute('disabled');
     }
 }
 
 //Показывать ошибку
-function showInputError(formElement, inputElement, errorMessage) {
+function showInputError(config, formElement, inputElement, errorMessage) {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.add(formSettings.inputInvalid);
+    inputElement.classList.add(config.inputInvalid);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add(formSettings.inputErrorActive);
+    errorElement.classList.add(config.inputErrorActive);
 }
 
 //Скрыватьошибку
-function hideInputError(formElement, inputElement) {
+function hideInputError(config, formElement, inputElement) {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(formSettings.inputInvalid);
-    errorElement.classList.remove(formSettings.inputErrorActive);
+    inputElement.classList.remove(config.inputInvalid);
+    errorElement.classList.remove(config.inputErrorActive);
     errorElement.textContent = '';
 }
 
