@@ -8,12 +8,8 @@ const selectors = {
     popupClose: '.popup__close',
     popupOpened: 'popup_is-opened',
 
-    popupForm: '.popup__form', //ФОРМА
-    popupInput: '.popup__input', //INPUT
-    inputInvalid: 'popup__input_invalid',
-    buttonSubmit: '.popup__save',
-    buttonSubmitInactive: 'popup__save_inactive',
-    inputErrorActive: 'popup__input-error_active',
+    popupForm: '.popup__form',
+    popupInput: '.popup__input',
     popupInputName: '.popup__input_value_name',
     popupInputJob: '.popup__input_value_job',
     profileInfo: '.profile__info',
@@ -38,7 +34,7 @@ const selectors = {
     popupImageHeading: '.popup__image-heading'
 }
 
-const closeButtons = document.querySelectorAll(selectors.popupClose);
+const buttonsClosed = document.querySelectorAll(selectors.popupClose);
 const popups = Array.from(document.querySelectorAll(selectors.popup));
 
 //Редактирование профиля
@@ -81,9 +77,27 @@ const fillPopupEdit = function () {
 
 //Открытие popup
 const openPopup = function (popup) {
+    //если это попапы с формами, то сбрасываем form и очищаем ошибки
+    if(popup===popupEditProfile || popup===popupCards) {resetForms(popup);}
     popup.classList.add(selectors.popupOpened);
     document.addEventListener('keydown', checkEsc);
 };
+
+// функция очистки полей и ошибок
+ function resetForms (popup) {
+    const form = popup.querySelector(selectors.popupForm);
+    if(popup===popupCards) { //Для формы с картами сбрасывем значения полей и отключаем кнопку
+        form.reset();
+        const buttonElement = form.querySelector(formSettings.buttonSubmit);
+        buttonElement.classList.add(formSettings.buttonSubmitInactive);
+        buttonElement.setAttribute('disabled', 'disabled');
+    }
+    //Очищаем ошибки
+    const inputList = Array.from(form.querySelectorAll(selectors.popupInput));
+    inputList.forEach((inputElement) => {
+        hideInputError(form, inputElement);
+    })
+ }
 
 // Проверка закрытия попап на ESC
 function checkEsc(event) {
@@ -94,7 +108,7 @@ function checkEsc(event) {
 }
 
 // Закрытие popup
-closeButtons.forEach((button) => {
+buttonsClosed.forEach((button) => {
     const popup = button.closest(selectors.popup);
     button.addEventListener('click', () => closePopup(popup));
   });
@@ -102,14 +116,6 @@ closeButtons.forEach((button) => {
 const closePopup = function (popup) {
     popup.classList.remove(selectors.popupOpened);
     document.removeEventListener('keydown', checkEsc);
-    if(popup===popupEditProfile || popup===popupCards) { //если это попапы с формами, то сбрасываем form и очищаем ошибки
-        const form = popup.querySelector(selectors.popupForm);
-        form.reset();
-        const inputList = Array.from(form.querySelectorAll(selectors.popupInput));
-        inputList.forEach((inputElement) => {
-            hideInputError(form, inputElement);
-        })
-    }
 };
 
 // Закрытие popup нажатием на overlay
@@ -172,7 +178,6 @@ function formSubmitAddCards () {
         }
         renderCard(elements);
         closePopup(popupCards);
-        event.target.reset();
     })
 }
 

@@ -7,4 +7,14 @@
     line-height: 15px;
     margin: 0;
     padding: 0;
+    position: absolute;
+    top: 32px;
+    left: 0;
+    width: 358px;
+}
+
+@media screen and (max-width: 525px) {
+    .popup__input-error {
+        width: 238px;
+    }
 }
