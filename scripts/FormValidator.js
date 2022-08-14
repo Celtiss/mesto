@@ -1,5 +1,4 @@
 // Валидация форм
-export {FormValidator};
 class FormValidator {
     constructor(config, form) {
         this._config = config;
@@ -7,59 +6,69 @@ class FormValidator {
     }
 
     enableValidation () {
-        this._setEventListeners(this._form);
+        this._setEventListeners();
     }
     
-    _setEventListeners(formElement) {
-        const inputList = Array.from(formElement.querySelectorAll(this._config.input));
-        const buttonElement = formElement.querySelector(this._config.buttonSubmit);
-        this._toggleButtonState(inputList, buttonElement);
+    _setEventListeners() {
+        this._inputList = Array.from(this._form.querySelectorAll(this._config.input));
+        this._buttonElement = this._form.querySelector(this._config.buttonSubmit);
+        this._toggleButtonState();
     
-        inputList.forEach((inputElement) => {
+        this._inputList.forEach((inputElement) => {
             inputElement.addEventListener('input', () => {
-                this._isValid(formElement, inputElement);
-                this._toggleButtonState(inputList, buttonElement);
+                this._isValid(inputElement);
+                this._toggleButtonState();
             })
         })
     }
 
-    _isValid(formElement, inputElement) {
+    _isValid(inputElement) {
         if(!inputElement.validity.valid) {
-            this._showInputError(formElement, inputElement, inputElement.validationMessage);
+            this._showInputError(inputElement, inputElement.validationMessage);
         } else {
-            this._hideInputError(this._config, formElement, inputElement);
+            this._hideInputError(inputElement);
         }
     }
 
-    _hasInvalidInput (inputList) { 
-        return inputList.some((inputElement) => { //если вернул true, значит есть хотя бы одно невалидное поле
+    _hasInvalidInput () { 
+        return this._inputList.some((inputElement) => { //если вернул true, значит есть хотя бы одно невалидное поле
             return !inputElement.validity.valid;
         })
     }
 
-    _toggleButtonState (inputList, buttonElement) {
-        if(this._hasInvalidInput(inputList)) {
-            buttonElement.classList.add(this._config.buttonSubmitInactive);
-            buttonElement.setAttribute('disabled', 'disabled');
+    resetValidation() {
+        this._toggleButtonState();
+  
+        this._inputList.forEach((inputElement) => {
+          this._hideInputError(inputElement);
+        });
+  
+      }
+  
+    _toggleButtonState () {
+        if(this._hasInvalidInput()) {
+            this._buttonElement.classList.add(this._config.buttonSubmitInactive);
+            this._buttonElement.setAttribute('disabled', 'disabled');
         } else {
-            buttonElement.classList.remove(this._config.buttonSubmitInactive);
-            buttonElement.removeAttribute('disabled');
+            this._buttonElement.classList.remove(this._config.buttonSubmitInactive);
+            this._buttonElement.removeAttribute('disabled');
         }
     }
     
     //Показывать ошибку
-    _showInputError(formElement, inputElement, errorMessage) {
-        const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    _showInputError(inputElement, errorMessage) {
+        const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.add(this._config.inputInvalid);
         errorElement.textContent = errorMessage;
         errorElement.classList.add(this._config.inputErrorActive);
     }
     
     //Скрыватьошибку
-    _hideInputError(config, formElement, inputElement) {
-        const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-        inputElement.classList.remove(config.inputInvalid);
-        errorElement.classList.remove(config.inputErrorActive);
-        errorElement.textContent = '';
+    _hideInputError(inputElement) {
+        this._errorElement = this._form.querySelector(`.${inputElement.id}-error`);
+        inputElement.classList.remove(this._config.inputInvalid);
+        this._errorElement.classList.remove(this._config.inputErrorActive);
+        this._errorElement.textContent = '';
     }
 }
+export {FormValidator};

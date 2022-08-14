@@ -1,10 +1,9 @@
-import {openPopup} from './index.js';
-export {Card};
 class Card {
-    constructor(title, url, templateSelector) {
+    constructor(title, url, templateSelector, handleCardClick) {
         this._title = title;
         this._url = url;
         this._templateSelector = templateSelector;
+        this._handleCardClick = handleCardClick;
     }
 
     generateCard () {
@@ -14,7 +13,7 @@ class Card {
 
     // Получить селектор template элемента карточки
     _getTemplate() {
-        const cardElement = document.querySelector('.card-template').content.querySelector('.elements__item').cloneNode(true);
+        const cardElement = document.querySelector(this._templateSelector).content.querySelector('.elements__item').cloneNode(true);
         return cardElement;  
     }
 
@@ -37,12 +36,10 @@ class Card {
         this._likeButton.addEventListener('click', (event) => {event.target.classList.toggle('elements__like-icon_active')});
         this._deleteButton.addEventListener('click', () => {this._element.remove();});
         this._image.addEventListener('click', () => {
-            this._popup = document.querySelector('.popup_type_image');
-            this._popup.querySelector('.popup__image').src= this._url;
-            this._popup.querySelector('.popup__image').alt= this._title;
-            this._popup.querySelector('.popup__image-heading').textContent= this._title;
-            openPopup(this._popup);
+            this._handleCardClick(this._title, this._url);
         })
     }
 
 }
+
+export {Card};
