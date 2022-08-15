@@ -200,7 +200,7 @@ popupOpenButtonElement.addEventListener('click', () => {
 });
 profileForm.addEventListener('submit', handleProfileFormSubmit); 
 popupOpenButtonAddCards.addEventListener('click', () => {
-    formCard.reset(); // <=== сначала очищаем форму тут ===
+    formCard.reset();
     formValidators.popupFormAddCard.resetValidation();
     openPopup(popupCards);
 });
