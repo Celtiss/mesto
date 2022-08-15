@@ -11,7 +11,7 @@ const selectors = {
 
     addCardsButton: '.profile__add-button',
     editButton: '.profile__edit-button',
-    popupClose: '.popup__close',
+    popupClose: 'popup__close',
     popupOpened: 'popup_is-opened',
 
     popupForm: '.popup__form',
@@ -77,14 +77,6 @@ const fillPopupEdit = function () {
     jobInput.value = profileJob.textContent;
     openPopup(popupEditProfile);
 };
-
-//Очистка форм
-function resetFormErrors(formName) {
-    formName.reset();
-    const form = new FormValidator(formSettings, formName);
-    form.enableValidation();
-    form.resetValidation();
-}
 
 //Открытие popup
 const openPopup = function (popup) {
@@ -203,26 +195,23 @@ createInitialCards();
 
 formCard.addEventListener('submit', handleFormSubmitCards);
 popupOpenButtonElement.addEventListener('click', () => {
-    resetFormErrors(popupFormEditProfile);
+    formValidators.popupFormEditProfile.resetValidation();
     fillPopupEdit();
 });
 profileForm.addEventListener('submit', handleProfileFormSubmit); 
 popupOpenButtonAddCards.addEventListener('click', () => {
-    resetFormErrors(popupFormAddCard);
+    formCard.reset(); // <=== сначала очищаем форму тут ===
+    formValidators.popupFormAddCard.resetValidation();
     openPopup(popupCards);
 });
 //Проверка нажатия на крестик и оверлэй
 popups.forEach((popup) => {
     popup.addEventListener('mousedown', (event) => {
-        if (event.target.classList.contains('popup_opened')) {
+        if (event.target.classList.contains(selectors.popupOpened)) {
             closePopup(popup)
         }
-        if (event.target.classList.contains('popup__close')) {
-          closePopup(popup)
-        }
-        if(event.target !== event.currentTarget) { 
-            return; 
+        if (event.target.classList.contains(selectors.popupClose)) { 
+            closePopup(popup) 
         } 
-        closePopup(event.currentTarget); 
     })
 })
