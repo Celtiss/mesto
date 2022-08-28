@@ -1,5 +1,6 @@
-import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js';
+import {Card} from '../components/Card.js';
+import {FormValidator} from '../components/FormValidator.js';
+import {Section} from '../components/Section.js';
 
 const selectors = {
     popup: '.popup',
@@ -115,14 +116,10 @@ function handleProfileFormSubmit (event) {
     closePopup(popupEditProfile);
 };
 
-// Метод, который вставляет разметку карточки в html
-function renderCard(cardElement) {
-    cardsSection.prepend(cardElement);
-}
-
 //Создание карточки
 function createCard (elements, cardTemplate) {
-    const card = new Card(elements.name, elements.link, selectors.cardTemplate, handleCardClick); 
+    console.log(selectors.cardTemplate, cardTemplate);
+    const card = new Card(elements.name, elements.link, cardTemplate, handleCardClick); 
     const cardElement = card.generateCard();
     return cardElement;
 }
@@ -131,49 +128,59 @@ function createCard (elements, cardTemplate) {
 function handleFormSubmitCards (event) {
     event.preventDefault();
     // Получим значения полей title, url
-    const elements = {
+    const elements = [{
         name: formCardsTitle.value,
         link: formCardsImg.value
-    }
-    const cardElement = createCard(elements, cardTemplate);
-    renderCard(cardElement); // рендеринг карточки
+    }];
+    const renderCard = new Section ({
+        items: elements, 
+        renderer: (item) => {
+            const cardElement = createCard(item, selectors.cardTemplate, handleCardClick); 
+            renderCard.setElement(cardElement);
+        }
+    }, cardsSection);
+    renderCard.renderItems();
     closePopup(popupCards);
 }
 
 //Инициализация 6 начальных карточек
- function createInitialCards() {
-    const initialCards = [
-        {
-          name: 'Архыз',
-          link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-        },
-        {
-          name: 'Челябинская область',
-          link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-        },
-        {
-          name: 'Иваново',
-          link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-        },
-        {
-          name: 'Камчатка',
-          link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-        },
-        {
-          name: 'Холмогорский район',
-          link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-        },
-        {
-          name: 'Байкал',
-          link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-        }
-      ];
 
-     initialCards.forEach(element => {
-         const cardElement = createCard(element, cardTemplate);
-         renderCard(cardElement);
-     });
- }
+const initialCards = [
+    {
+        name: 'Архыз',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+        name: 'Челябинская область',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+        name: 'Иваново',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+        name: 'Камчатка',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+        name: 'Холмогорский район',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+        name: 'Байкал',
+        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+    ];
+
+const cardList = new Section({
+    items: initialCards,
+    renderer: (item) => {
+    const cardElement = createCard(item, selectors.cardTemplate, handleCardClick); 
+    cardList.setElement(cardElement);
+    }
+}, cardsSection);
+
+cardList.renderItems();
 
 const formValidators = {} //Объект для хранения валидаторов
 
@@ -190,8 +197,6 @@ const formValidators = {} //Объект для хранения валидат�
  };
  
 enableValidation(formSettings);
-
-createInitialCards();
 
 formCard.addEventListener('submit', handleFormSubmitCards);
 popupOpenButtonElement.addEventListener('click', () => {
