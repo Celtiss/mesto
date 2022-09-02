@@ -3,7 +3,6 @@ import {Popup} from './Popup.js';
 export class PopupWithImage extends Popup {
     constructor (popupSelector) {
         super(popupSelector);
-        // this._popupSelector = popupSelector;
     }
 
     open (name, link) {
@@ -14,6 +13,5 @@ export class PopupWithImage extends Popup {
         this._popupImageLink.alt = name;
         this._popupImageLink.src = link;
         super.open();
-        // super._handleEscClose();
     }
 }
