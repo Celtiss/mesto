@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require("path");
 
 module.exports = {
-    entry: {main:'/src/pages/index.js'},
+    entry: {main:'./src/pages/index.js'},
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js',
@@ -18,13 +18,6 @@ module.exports = {
     
         open: true // сайт будет открываться сам при запуске npm run dev
       },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: '/src/index.html'
-        }),
-        new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin()
-    ],
     module: {
         rules: [
             {
@@ -64,5 +57,12 @@ module.exports = {
             }
             
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        }),
+        new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin()
+    ]
 }
