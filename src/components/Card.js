@@ -36,7 +36,7 @@ class Card {
         this._likeButton.addEventListener('click', (event) => {event.target.classList.toggle('elements__like-icon_active')});
         this._deleteButton.addEventListener('click', () => {this._element.remove();});
         this._image.addEventListener('click', () => {
-            this._handleCardClick(this._title, this._url);
+            this._handleCardClick.open(this._title, this._url);
         })
     }
 

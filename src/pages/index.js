@@ -53,7 +53,7 @@ popupFormProfile.setEventListeners();
 
 //Создание экземпляра карточки
 function createCard (title, img, cardTemplate) {
-    const card = new Card(title, img, cardTemplate, bigImagePopup.open); 
+    const card = new Card(title, img, cardTemplate, bigImagePopup); 
     const cardElement = card.generateCard();
     return cardElement;
 }
