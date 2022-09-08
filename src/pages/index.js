@@ -63,7 +63,7 @@ const popupFormCard = new PopupWithForm ({
     handleSubmitForm: (formData) => {
         const cardElement = createCard(formData.popupName,formData.popupImg, selectors.cardTemplate);
         cardList.setElement(cardElement);
-        popupFormCard.clode();
+        popupFormCard.close();
     }
 });
 popupFormCard.setEventListeners();
