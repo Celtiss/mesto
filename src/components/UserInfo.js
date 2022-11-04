@@ -1,7 +1,8 @@
 export class UserInfo {
-    constructor({userName, userInfo}) {
+    constructor({userName, userInfo, userAvatar}) {
         this._userName = userName;
         this._userInfo = userInfo;
+        this._userAvatar = userAvatar;
     }
 
     getUserInfo () {
@@ -11,8 +12,9 @@ export class UserInfo {
         }
     }
 
-    setUserInfo (formData) {
-        this._userName.textContent = formData.popupName;
-        this._userInfo.textContent = formData.popupJob;
+    setUserInfo (name, job, url) {
+        this._userName.textContent = name;
+        this._userInfo.textContent = job;
+        this._userAvatar.src = url;
     }
 }

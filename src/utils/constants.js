@@ -7,40 +7,17 @@ export const formSettings = {
     inputErrorActive: 'popup__input-error_active'
 }
 
-export const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
-
 export const selectors = {
     popupEdit: '.popup_type_edit-profile',
     popupCards: '.popup_type_add-card',
     popupImage: '.popup_type_image',
+    formConfirm: '.popup__form_type_card-confirm',
+    popupConfirm: '.popup_type_confirmation',
+    popupAvatar: '.popup_type_edit-avatar',
 
     addCardsButton: '.profile__add-button',
     editButton: '.profile__edit-button',
+    editAvatarButton: '.profile__avatar-container',
     popupClose: 'popup__close',
     popupOpened: 'popup_is-opened',
 
@@ -48,7 +25,9 @@ export const selectors = {
     popupFormEditProfile: '.popup__form_type_edit-profile',
     popupInputName: '.popup__input_value_name',
     popupInputJob: '.popup__input_value_job',
-    profileInfo: '.profile__info',
+    popupLoading: '.popup__loading',
+    profileAvatar: '.profile__avatar',
+    profileInfo: '.profile',
     profileName: '.profile__name',
     profileDescription: '.profile__description',
 

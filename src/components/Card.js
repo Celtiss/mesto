@@ -1,9 +1,19 @@
 class Card {
-    constructor(title, url, templateSelector, handleCardClick) {
-        this._title = title;
-        this._url = url;
+    constructor(data, templateSelector, user, handleCardClick, handleCardDelete, handleLikeClick) {
+        this._data = data;
+        this._title = data.name;
+        this._url = data.link;
+        this._likes = data.likes;
+        this._id = data._id;
+        this._ownerId = data.owner._id;
+        this._user = user;
         this._templateSelector = templateSelector;
         this._handleCardClick = handleCardClick;
+        this._handleCardDelete = handleCardDelete;
+        this._handleLikeClick = handleLikeClick;
+        this._element = this._getTemplate(); // элемент карточки
+        this._likeButton = this._element.querySelector('.elements__like-icon');
+        this._buttonDelete = this._element.querySelector('.elements__trash-button');
     }
 
     generateCard () {
@@ -11,35 +21,78 @@ class Card {
         return template;
     }
 
+    isLiked() {    
+        let res = this._likes.some((item) => {
+            return item._id == this._user._id;
+        });
+        return res;
+    }
+
+    toggleCardLike () {
+        this._res = this.isLiked();
+        if(this._res){
+            this._likeButton.classList.add('elements__like-icon_active');
+        }
+        if(!this._res) {
+            this._likeButton.classList.remove('elements__like-icon_active');
+        }
+        
+    }
+
+    addCardLike (newLikes) {
+        this._likeCount.textContent = newLikes.length;
+        this._likes = newLikes;
+        this.toggleCardLike();
+    }
+
+    deleteCardLike (newLikes) {
+        this._likeCount.textContent = newLikes.length;
+        this._likes = newLikes;
+        this.toggleCardLike();
+    }
+
     // Получить селектор template элемента карточки
     _getTemplate() {
         const cardElement = document.querySelector(this._templateSelector).content.querySelector('.elements__item').cloneNode(true);
-        return cardElement;  
+        return cardElement; 
+    }
+
+    //Проверка на то, принадлежит ли карточка пользователю
+    _showDeleteButton () {
+        if(this._ownerId == this._user._id) {
+            this._buttonDelete.style.display = 'block';
+        }
+        if(this._ownerId != this._user._id) {
+            this._buttonDelete.style.display = 'none';
+        }
     }
 
     _createCard () {
-        this._element = this._getTemplate(); // элемент карточки
-
+        this.toggleCardLike();
+        //если владелец карточки не я, то убираем кнопку удаления
+        this._showDeleteButton();
         //Заполняем карточку данными
         this._element.querySelector('.elements__title').textContent = this._title;
+        this._likeCount = this._element.querySelector('.elements__like-count');
         this._image = this._element.querySelector('.elements__image');
+        this._likeCount.textContent = this._likes.length;
         this._image.src = this._url;
         this._image.alt = this._title;
-
         this._setEventListeners();
         return this._element;
     }
 
     _setEventListeners () {
-        this._likeButton = this._element.querySelector('.elements__like-icon');
         this._deleteButton = this._element.querySelector('.elements__trash-button');
-        this._likeButton.addEventListener('click', (event) => {event.target.classList.toggle('elements__like-icon_active')});
-        this._deleteButton.addEventListener('click', () => {this._element.remove();});
+        this._likeButton.addEventListener('click', () => this._handleLikeClick(this._id));
+        this._deleteButton.addEventListener('click', () => {
+            this._handleCardDelete.open()
+            this._handleCardDelete.setEventListeners(this._id, this._element);
+        });
         this._image.addEventListener('click', () => {
             this._handleCardClick.open(this._title, this._url);
         })
     }
-
 }
 
 export {Card};

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="pages/index.css"> -->
     <title>Mesto</title>
 </head>
 <body class="page">
@@ -12,12 +13,16 @@
     <main class="content">
         <section class="profile">
             <div class="profile__pack">
-                <img src="<%=require('./images/profile-avatar.png')%>" alt="Аватар профиля" class="profile__avatar">
-            <div class="profile__info">
-                <button type="button" aria-label="Изменить" class="profile__edit-button"></button>
-                <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <p class="profile__description">Исследователь океана</p>
-            </div>
+                <div class="profile__avatar-container">
+                    <img src="" alt="Аватар профиля" class="profile__avatar">
+                    <!-- <div class="profile__avatar-edit-button"></div> -->
+                    <img src="<%=require('./images/profile-avatar.png')%>" alt="Аватар профиля" class="profile__avatar">
+                </div>
+                <div class="profile__info">
+                    <button type="button" aria-label="Изменить" class="profile__edit-button"></button>
+                    <h1 class="profile__name"></h1>
+                    <p class="profile__description"></p>
+                </div>
             </div>
             <button type="button" aria-label="Добавить" class="profile__add-button"></button>
         </section>
@@ -43,7 +48,22 @@
                         <input name="popupJob"  type="text" placeholder="Работа" id="job-input" class="popup__input popup__input_value_job" minlength="2" maxlength="200" required />
                         <span class="popup__input-error job-input-error"></span>
                     </label>
-                    <button type="submit" class="popup__save">Сохранить</button>
+                    <button type="submit" class="popup__save">Сохранить<span class="popup__loading">...</span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup_type_edit-avatar">
+        <div class="popup__container">
+            <button type="button" class="popup__close"></button>
+            <div class="popup__content">
+                <h2 class="popup__title">Обновить аватар</h2>
+                <form action="#" name="popupFormEditAvatar" class="popup__form popup__form_type_edit-avatar">
+                    <label class="popup__form-label">
+                        <input name="popupAvatar" type="url" placeholder="Ссылка на аватарку" id="avatar-input" class="popup__input popup__input_value_avatar" required />
+                        <span class="popup__input-error avatar-input-error"></span>
+                    </label>
+                    <button type="submit" class="popup__save">Сохранить<span class="popup__loading">...</span></button>
                 </form>
             </div>
         </div>
@@ -62,8 +82,21 @@
                         <input name="popupImg"  type="url" placeholder="Ссылка на картинку" id="url-input" class="popup__input popup__input_value_img" required />
                         <span class="popup__input-error url-input-error"></span>
                     </label>
-                    <button type="submit" class="popup__save">Создать</button>
+                    <button type="submit" class="popup__save">Создать<span class="popup__loading">...</span></button>
+                    <span class="popup__loading">...</span>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup_type_confirmation">
+        <div class="popup__container">
+            <button type="button" class="popup__close"></button>
+            <div class="popup__content">
+                <h2 class="popup__title">Вы уверены?</h2>
+                <form action="#" name="popupCardConfirm" class="popup__form popup__form_type_card-confirm">
+                    <button type="submit" class="popup__save">Да</button>
+                </form>
+                
             </div>
         </div>
     </div>
@@ -71,7 +104,7 @@
         <div class="popup__container-image">
             <button type="button" class="popup__close"></button>
             <img src="#" alt="" class="popup__image">
-            <h2 class="popup__image-heading">Байкал</h2>
+            <h2 class="popup__image-heading"></h2>
         </div>
     </div>
     <template class="card-template">
@@ -80,9 +113,13 @@
             <img src="#" alt="" class="elements__image">
             <div class="elements__item-description">
                 <h3 class="elements__title"></h3>
-                <button type="button" aria-label="Лайк" class="elements__like-icon"></button>
+                <div class="elements__like-container">
+                    <button type="button" aria-label="Лайк" class="elements__like-icon"></button>
+                    <p class="elements__like-count">5</p>
+                </div>
             </div>
         </li>
     </template>
+    <!-- <script type="module" src="pages/index.js"></script> -->
 </body>
 </html>
