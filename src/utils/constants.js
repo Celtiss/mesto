@@ -25,7 +25,6 @@ export const selectors = {
     popupFormEditProfile: '.popup__form_type_edit-profile',
     popupInputName: '.popup__input_value_name',
     popupInputJob: '.popup__input_value_job',
-    popupLoading: '.popup__loading',
     profileAvatar: '.profile__avatar',
     profileInfo: '.profile',
     profileName: '.profile__name',

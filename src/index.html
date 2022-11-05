@@ -14,9 +14,9 @@
         <section class="profile">
             <div class="profile__pack">
                 <div class="profile__avatar-container">
-                    <img src="Аватар пррофиля" alt="Аватар профиля" class="profile__avatar">
-                    <!-- <div class="profile__avatar-edit-button"></div> -->
-                    <img src="<%=require('./images/profile-avatar.png')%>" alt="Аватар профиля" class="profile__avatar">
+                    <!-- <img src="#" alt="Аватар профиля" class="profile__avatar"> -->
+                    <div class="profile__avatar-edit-button"></div>
+                    <img src="#" alt="Аватар профиля" class="profile__avatar">
                 </div>
                 <div class="profile__info">
                     <button type="button" aria-label="Изменить" class="profile__edit-button"></button>
@@ -39,7 +39,7 @@
             <button type="button" class="popup__close"></button>
             <div class="popup__content">
                 <h2 class="popup__title">Редактировать профиль</h2>
-                <form action="#" name="popupFormEditProfile" class="popup__form popup__form_type_edit-profile">
+                <form action="#" name="popupFormEditProfile" class="popup__form popup__form_type_edit-profile" novalidate>
                     <label class="popup__form-label">
                         <input name="popupName" type="text" placeholder="Имя" id="name-input" class="popup__input popup__input_value_name" minlength="2" maxlength="40" required />
                         <span class="popup__input-error name-input-error"></span>
@@ -48,7 +48,7 @@
                         <input name="popupJob"  type="text" placeholder="Работа" id="job-input" class="popup__input popup__input_value_job" minlength="2" maxlength="200" required />
                         <span class="popup__input-error job-input-error"></span>
                     </label>
-                    <button type="submit" class="popup__save">Сохранить<span class="popup__loading">...</span></button>
+                    <button type="submit" class="popup__save">Сохранить</button>
                 </form>
             </div>
         </div>
@@ -58,12 +58,12 @@
             <button type="button" class="popup__close"></button>
             <div class="popup__content">
                 <h2 class="popup__title">Обновить аватар</h2>
-                <form action="#" name="popupFormEditAvatar" class="popup__form popup__form_type_edit-avatar">
+                <form action="#" name="popupFormEditAvatar" class="popup__form popup__form_type_edit-avatar" novalidate>
                     <label class="popup__form-label">
                         <input name="popupAvatar" type="url" placeholder="Ссылка на аватарку" id="avatar-input" class="popup__input popup__input_value_avatar" required />
                         <span class="popup__input-error avatar-input-error"></span>
                     </label>
-                    <button type="submit" class="popup__save">Сохранить<span class="popup__loading">...</span></button>
+                    <button type="submit" class="popup__save">Сохранить</button>
                 </form>
             </div>
         </div>
@@ -73,7 +73,7 @@
             <button type="button" class="popup__close"></button>
             <div class="popup__content">
                 <h2 class="popup__title">Новое место</h2>
-                <form action="#" name="popupFormAddCard" class="popup__form popup__form_type_add-card">
+                <form action="#" name="popupFormAddCard" class="popup__form popup__form_type_add-card" novalidate>
                     <label class="popup__form-label">
                         <input name="popupName" type="text" placeholder="Название" id="place-input"  class="popup__input popup__input_value_name" required minlength="2" maxlength="30" />
                         <span class="popup__input-error place-input-error"></span>
@@ -82,8 +82,7 @@
                         <input name="popupImg"  type="url" placeholder="Ссылка на картинку" id="url-input" class="popup__input popup__input_value_img" required />
                         <span class="popup__input-error url-input-error"></span>
                     </label>
-                    <button type="submit" class="popup__save">Создать<span class="popup__loading">...</span></button>
-                    <span class="popup__loading">...</span>
+                    <button type="submit" class="popup__save">Создать</button>
                 </form>
             </div>
         </div>
@@ -93,7 +92,7 @@
             <button type="button" class="popup__close"></button>
             <div class="popup__content">
                 <h2 class="popup__title">Вы уверены?</h2>
-                <form action="#" name="popupCardConfirm" class="popup__form popup__form_type_card-confirm">
+                <form action="#" name="popupCardConfirm" class="popup__form popup__form_type_card-confirm" novalidate>
                     <button type="submit" class="popup__save">Да</button>
                 </form>
                 
@@ -103,7 +102,7 @@
     <div class="popup popup_type_image">
         <div class="popup__container-image">
             <button type="button" class="popup__close"></button>
-            <img src="Увеличенная картинка" alt="" class="popup__image">
+            <img src="#" alt="" class="popup__image">
             <h2 class="popup__image-heading"></h2>
         </div>
     </div>

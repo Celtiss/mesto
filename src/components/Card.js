@@ -22,18 +22,18 @@ class Card {
     }
 
     isLiked() {    
-        let res = this._likes.some((item) => {
+
+        const myLike = this._likes.some((item) => {
             return item._id == this._user._id;
         });
-        return res;
+        return myLike;
     }
 
     toggleCardLike () {
-        this._res = this.isLiked();
-        if(this._res){
+        if(this.isLiked()){
             this._likeButton.classList.add('elements__like-icon_active');
         }
-        if(!this._res) {
+        if(!this.isLiked()) {
             this._likeButton.classList.remove('elements__like-icon_active');
         }
         
@@ -86,11 +86,10 @@ class Card {
         this._deleteButton = this._element.querySelector('.elements__trash-button');
         this._likeButton.addEventListener('click', () => this._handleLikeClick(this._id));
         this._deleteButton.addEventListener('click', () => {
-            this._handleCardDelete.open()
-            this._handleCardDelete.setEventListeners(this._id, this._element);
+            this._handleCardDelete(this._id, this._element);
         });
         this._image.addEventListener('click', () => {
-            this._handleCardClick.open(this._title, this._url);
+            this._handleCardClick(this._title, this._url);
         })
     }
 }

@@ -17,10 +17,6 @@ const popupOpenButtonEditProfile = document.querySelector(selectors.editButton);
 const popupOpenButtonAddCards = document.querySelector(selectors.addCardsButton);
 const cardsSection = document.querySelector(selectors.cardsSection);
 
-//Form
-const formCard = document.querySelector(selectors.popupFormAddCard);
-const popupLoading = document.querySelector(selectors.popupLoading);
-
 //Профиль
 const profile = document.querySelector(selectors.profileInfo);
 const profileName = profile.querySelector(selectors.profileName);
@@ -32,7 +28,7 @@ const profileForm = popupEditProfile.querySelector(selectors.popupForm);
 const nameInput = profileForm.querySelector(selectors.popupInputName);
 const jobInput = profileForm.querySelector(selectors.popupInputJob);
 
-let initialCards = [];
+const initialCards = [];
 let user = {};
 
 // Экземпляр класса API
@@ -68,13 +64,22 @@ const fillPopupEdit = function () {
 
 // Получение карточек с сервера
 const cardsData = api.getInitialCards();
-cardsData.then((data) => {
-    data.forEach((item) => {
-        initialCards.push(item);
+cardsData.then((cardsData) => {
+    cardsData.forEach((card) => {
+        initialCards.push(card);
     })
-    cardList.renderItems();
 })
 .catch(err => {
+    console.log(err);
+})
+
+//Пока не загрузятся данные о пользователе и карточках, не отрисовываем страницу
+Promise.all([api.getUserInfo(), api.getInitialCards()
+])
+.then((values)=>{
+    cardList.renderItems(); //отрисовываем карточки
+})
+.catch((err)=>{ //попадаем сюда если один из промисов завершаться ошибкой
     console.log(err);
 })
 
@@ -92,34 +97,48 @@ const cardList = new Section({
 const bigImagePopup = new PopupWithImage(selectors.popupImage);
 bigImagePopup.setEventListeners();
 
+const handleCardClick = function (title, url) {
+    bigImagePopup.open(title, url);
+}
+
 
 // Подтверждение удаления карточки
 const popupConfirm = new PopupWithConfirmation({
     popupSelector: selectors.popupConfirm,
     handleSubmit: (id, card) => {
-        api.deleteCard(id).then(() => {
+        api.deleteCard(id).then((res) => {
+            console.log(res);
             card.remove();
-        }).catch(err=>console.log("Error while deleting ", err));
+            popupConfirm.close();
+        })
+        .catch(err=>console.log("Error while deleting ", err));
     }
 })
 
 popupConfirm.setEventListeners();
+
+// Обработчик подтверждения удаления карточки
+const handleCardDelete = function (id, cardElement) {
+    popupConfirm.open();
+    popupConfirm.setEventListeners(id, cardElement);
+
+}
 
 // Управление лайками
 function handleLikeClick (id) {
     //Удаление лайка
     if(this.isLiked()){
         const cardLikeDelete = api.deleteCardLike(id);
-        cardLikeDelete.then((res) => {
-            this.deleteCardLike(res.likes);
+        cardLikeDelete.then((likesData) => {
+            this.deleteCardLike(likesData.likes);
         })
         .catch(err=>console.log("Error while liking", err));
     }
     //Добавление лайка
     if(!this.isLiked()) {
         const cardLikes = api.setCardLikes(id, user);
-        cardLikes.then((res) => {
-            this.addCardLike(res.likes);
+        cardLikes.then((likesData) => {
+            this.addCardLike(likesData.likes);
         })
         .catch(err=>console.log("Error while liking", err));
     }
@@ -127,32 +146,37 @@ function handleLikeClick (id) {
 
 //Создание экземпляра карточки
 function createCard (data, cardTemplate) {
-    const card = new Card(data, cardTemplate, user, bigImagePopup, popupConfirm, handleLikeClick); 
+    const card = new Card(data, cardTemplate, user, handleCardClick, handleCardDelete, handleLikeClick); 
     const cardElement = card.generateCard();
     return cardElement;
 }
 
 //Показывать/Прятать точки при отправке формы на сервер
-const showLoading = function () {
-    popupLoading.style.display = 'inline';
+let formButtonText = '';
+const showLoading = function (button) {
+    formButtonText = button.textContent;
+    button.textContent = `${formButtonText}...`;
 }
 
-const hideLoading = function () {
-    popupLoading.style.display = 'none';
+const hideLoading = function (button) {
+    button.textContent = formButtonText;
 }
 
 //Попап обновления профиля
 const popupFormProfile = new PopupWithForm ({
     popupSelector: selectors.popupEdit,
-    handleSubmitForm: (formData) => {
+    handleSubmitForm: (formData, buttonSubmit) => {
         const saveData = api.updateUserInfo(formData.popupName, formData.popupJob);
         saveData.then((data) => {
             userProfie.setUserInfo(data.name, data.about, data.avatar);
+            popupFormProfile.close();
         })
         .catch(err => {
             console.log(err);
         })
-        hideLoading();
+        .finally(() => {
+            hideLoading(buttonSubmit);
+        }); 
     }, 
 }, showLoading);
 
@@ -161,15 +185,17 @@ popupFormProfile.setEventListeners();
 // Попап добавления карточки
 const popupFormCard = new PopupWithForm ({
     popupSelector: selectors.popupCards,
-    handleSubmitForm: (formData) => {
+    handleSubmitForm: (formData, buttonSubmit) => {
         const saveCard = api.addNewCard(formData);
         saveCard.then((data) => {
             const cardElement = createCard(data, selectors.cardTemplate);
             cardList.setElement(cardElement);
             popupFormCard.close();
         })
-        .catch(err=>console.log("Error add card", err));
-        hideLoading();
+        .catch(err=>console.log("Error add card", err))
+        .finally(() => {
+            hideLoading(buttonSubmit);
+        }); 
     }
 }, showLoading);
 popupFormCard.setEventListeners();
@@ -177,14 +203,16 @@ popupFormCard.setEventListeners();
 //Попап обновления аватара
 const popupEditAvatar = new PopupWithForm ({
     popupSelector: selectors.popupAvatar,
-    handleSubmitForm: (formData) => {
+    handleSubmitForm: (formData, buttonSubmit) => {
         const editAvatar = api.editAvatar(formData.popupAvatar);
         editAvatar.then((data) => {
             userProfie.setUserInfo(data.name, data.about, data.avatar);
+            popupEditAvatar.close();
         })
-        .catch(err=>console.log("Error edit avatar", err));
-        hideLoading();
-        popupEditAvatar.close();
+        .catch(err=>console.log("Error edit avatar", err))
+        .finally(() => {
+            hideLoading(buttonSubmit);
+        }); 
     }
 }, showLoading)
 
@@ -212,7 +240,6 @@ popupOpenButtonEditProfile.addEventListener('click', () => {
 });
 
 popupOpenButtonAddCards.addEventListener('click', () => {
-    formCard.reset();
     formValidators.popupFormAddCard.resetValidation();
     popupFormCard.open();
 });

@@ -71,7 +71,7 @@ export class Api {
     }
 
     deleteCardLike(id) {
-        return fetch(`${this._url}/cards/${id}/likes`, {
+        return fetch(`${this._url}/cards/${id}/likes/`, {
             method: 'DELETE',
             headers: this._headers,
         })
