@@ -39,13 +39,7 @@ class Card {
         
     }
 
-    addCardLike (newLikes) {
-        this._likeCount.textContent = newLikes.length;
-        this._likes = newLikes;
-        this.toggleCardLike();
-    }
-
-    deleteCardLike (newLikes) {
+    editCardLike (newLikes) {
         this._likeCount.textContent = newLikes.length;
         this._likes = newLikes;
         this.toggleCardLike();

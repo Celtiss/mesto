@@ -1,4 +1,4 @@
-import './index.css';
+// import './index.css';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
@@ -43,16 +43,6 @@ const api = new Api ({
 // Экземплр класса изменения профиля
 const userProfie = new UserInfo ({userName:profileName, userInfo:profileJob, userAvatar:profileAvatar});
 
-// Получение данных пользователя с сервера
-const userData = api.getUserInfo();
-userData.then(data => {
-    user = data; //сохранем данные пользователя, чтобы в будущем удалять и лайкать карточки
-    userProfie.setUserInfo(data.name, data.about, data.avatar);
-})
-.catch(err => {
-    console.log(err);
-})
-
 // Заполнение popup_profile
 const fillPopupEdit = function () {
     const userData = userProfie.getUserInfo();
@@ -61,28 +51,23 @@ const fillPopupEdit = function () {
     popupFormProfile.open();
 };
 
-
-// Получение карточек с сервера
-const cardsData = api.getInitialCards();
-cardsData.then((cardsData) => {
+//Пока не загрузятся данные о пользователе и карточках, не отрисовываем страницу
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+.then((values)=>{
+    const userInfo = values[0];
+    user = userInfo; //сохранем данные пользователя, чтобы в будущем удалять и лайкать карточки
+    userProfie.setUserInfo(userInfo.name, userInfo.about, userInfo.avatar);
+    
+    const cardsData = values[1];
     cardsData.forEach((card) => {
         initialCards.push(card);
-    })
-})
-.catch(err => {
-    console.log(err);
-})
-
-//Пока не загрузятся данные о пользователе и карточках, не отрисовываем страницу
-Promise.all([api.getUserInfo(), api.getInitialCards()
-])
-.then((values)=>{
+   })
+    
     cardList.renderItems(); //отрисовываем карточки
 })
 .catch((err)=>{ //попадаем сюда если один из промисов завершаться ошибкой
     console.log(err);
 })
-
 
 // Инициализация карточек
 const cardList = new Section({
@@ -101,12 +86,12 @@ const handleCardClick = function (title, url) {
     bigImagePopup.open(title, url);
 }
 
-
-// Подтверждение удаления карточки
+//Подтверждение удаления карточки
 const popupConfirm = new PopupWithConfirmation({
     popupSelector: selectors.popupConfirm,
     handleSubmit: (id, card) => {
-        api.deleteCard(id).then((res) => {
+        api.deleteCard(id)
+        .then((res) => {
             console.log(res);
             card.remove();
             popupConfirm.close();
@@ -115,7 +100,7 @@ const popupConfirm = new PopupWithConfirmation({
     }
 })
 
-popupConfirm.setEventListeners();
+// popupConfirm.setEventListeners();
 
 // Обработчик подтверждения удаления карточки
 const handleCardDelete = function (id, cardElement) {
@@ -130,7 +115,7 @@ function handleLikeClick (id) {
     if(this.isLiked()){
         const cardLikeDelete = api.deleteCardLike(id);
         cardLikeDelete.then((likesData) => {
-            this.deleteCardLike(likesData.likes);
+            this.editCardLike(likesData.likes);
         })
         .catch(err=>console.log("Error while liking", err));
     }
@@ -138,7 +123,7 @@ function handleLikeClick (id) {
     if(!this.isLiked()) {
         const cardLikes = api.setCardLikes(id, user);
         cardLikes.then((likesData) => {
-            this.addCardLike(likesData.likes);
+            this.editCardLike(likesData.likes);
         })
         .catch(err=>console.log("Error while liking", err));
     }
@@ -155,7 +140,7 @@ function createCard (data, cardTemplate) {
 let formButtonText = '';
 const showLoading = function (button) {
     formButtonText = button.textContent;
-    button.textContent = `${formButtonText}...`;
+    button.textContent = `Сохранение...`;
 }
 
 const hideLoading = function (button) {

@@ -2,6 +2,7 @@ export class Popup {
     constructor (popupSelector) {
         this._popup = document.querySelector(popupSelector); //элемент данного попапа
         this._handleEscClose = this._handleEscClose.bind(this);
+        // console.log(this._popup);
     }
 
     open () {
