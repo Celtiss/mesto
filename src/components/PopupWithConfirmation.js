@@ -7,21 +7,20 @@ export class PopupWithConfirmation extends Popup {
         this._form = this._popup.querySelector('.popup__form_type_card-confirm');
     }
 
-    // _getElement() {
-    //     const form = 
-    //     return form;
-    // }
+    getCardData(cardId, cardElement) {
+        this._cardId = cardId;
+        this._cardElement = cardElement;
+    }
 
-    setEventListeners(id, card) {
+    _handleDelete() {
+        this._handleSubmit(this._cardId, this._cardElement);
+    }
+
+    setEventListeners() {
         super.setEventListeners();
-        // this._form = this._getElement();
-        console.log(id); // id выводится в единственном экземпляре
-        this._form.addEventListener('submit', (evt) => { 
+        this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            console.log(id);//выводится несколько id. Нынешнее, 
-                                    //которое хотим удалить и все предыдущие, 
-                                    //которые недавно удалили
-            this._handleSubmit(id, card);
+            this._handleDelete();
         })
     }
 

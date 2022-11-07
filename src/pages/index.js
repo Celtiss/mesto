@@ -100,13 +100,12 @@ const popupConfirm = new PopupWithConfirmation({
     }
 })
 
-// popupConfirm.setEventListeners();
+popupConfirm.setEventListeners();
 
 // Обработчик подтверждения удаления карточки
 const handleCardDelete = function (id, cardElement) {
     popupConfirm.open();
-    popupConfirm.setEventListeners(id, cardElement);
-
+    popupConfirm.getCardData(id, cardElement);
 }
 
 // Управление лайками
@@ -115,7 +114,7 @@ function handleLikeClick (id) {
     if(this.isLiked()){
         const cardLikeDelete = api.deleteCardLike(id);
         cardLikeDelete.then((likesData) => {
-            this.editCardLike(likesData.likes);
+            this.changeCardLike(likesData.likes);
         })
         .catch(err=>console.log("Error while liking", err));
     }
@@ -123,7 +122,7 @@ function handleLikeClick (id) {
     if(!this.isLiked()) {
         const cardLikes = api.setCardLikes(id, user);
         cardLikes.then((likesData) => {
-            this.editCardLike(likesData.likes);
+            this.changeCardLike(likesData.likes);
         })
         .catch(err=>console.log("Error while liking", err));
     }
